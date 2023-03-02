@@ -11,12 +11,12 @@ namespace LayerBusiness.Concrete
 {
     public class CampaignManager : ICampaignService
     {
-        ICampaignDal _campaignDal;
-      
+        ICampaignDal _campaignDal; private readonly IProductDal _productDal;
 
-        public CampaignManager(ICampaignDal campaignDal)
+        public CampaignManager(ICampaignDal campaignDal, IProductDal productDal)
         {
             _campaignDal = campaignDal;
+            _productDal = productDal;
         }
 
         public List<Campaign> GetList()
@@ -38,19 +38,19 @@ namespace LayerBusiness.Concrete
         {
             _campaignDal.Update(t);
         }
-        // Method to get active campaigns
-        public List<Campaign> GetActiveCampaigns()
-        {
-            var now = DateTime.Now;
-
-            var activeCampaigns = _campaignDal.List(c => c.StartDate <= now && c.EndDate >= now);
-
-            return activeCampaigns;
-        }
 
         public Campaign TGetByID(int id)
         {
             return _campaignDal.GetByID(id);
         }
+
+        public List<Campaign> GetActiveCampaigns()
+        {
+            return _campaignDal.List(c => c.StartDate <= DateTime.Today && c.EndDate >= DateTime.Today);
+        }
+
+
+       
     }
 }
+

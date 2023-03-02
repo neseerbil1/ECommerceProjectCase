@@ -11,6 +11,7 @@ namespace LayerBusiness.Abstract
     {
        List<Campaign> GetActiveCampaigns();
         Campaign TGetByID(int id);
+       
 
     }
 }

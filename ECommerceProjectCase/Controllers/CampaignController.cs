@@ -25,6 +25,7 @@ namespace ECommerceProjectCase.Controllers
             var campaigns = _campaignService.GetList();
             return View(campaigns);
         }
+      
         public ActionResult Create()
         {
             return View();
