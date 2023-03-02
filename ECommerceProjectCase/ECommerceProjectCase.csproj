@@ -194,6 +194,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CampaignController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\DiscountController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
@@ -242,6 +243,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\Campaign\" />
     <Folder Include="Views\Category\" />
     <Folder Include="Views\Discount\" />
     <Folder Include="Views\Product\" />

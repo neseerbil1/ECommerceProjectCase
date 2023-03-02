@@ -95,11 +95,6 @@ namespace ECommerceProjectCase.Controllers
             ViewBag.Discounts = _discountService.GetList();
             return View(campaign);
         }
-        public ActionResult ApplyDiscount(int id)
-        {
-            var discount = _productService.ApplyDiscounts(_productService.TGetByID(id));
-
-            return View(discount);
-        }
+       
     }
 }

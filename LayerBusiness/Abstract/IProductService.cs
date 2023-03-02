@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace LayerBusiness.Abstract
 {
-    public interface IProductService:IGenericService<Product>
+    public interface IProductService : IGenericService<Product>
     {
         List<Product> GetByCategory(string category);
         List<Product> GetList(Func<Product, bool> filter = null);
-        double ApplyDiscounts(Product product);
+
     }
 }

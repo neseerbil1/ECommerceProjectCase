@@ -88,5 +88,7 @@ namespace LayerBusiness.Concrete
         {
             throw new NotImplementedException();
         }
+
+       
     }
 }
