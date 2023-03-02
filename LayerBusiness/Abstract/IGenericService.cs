@@ -12,5 +12,6 @@ namespace LayerBusiness.Abstract
         void TAdd(T t);
         void TDelete(T t);
         void TUpdate(T t);
+        T TGetByID(int id);
     }
 }

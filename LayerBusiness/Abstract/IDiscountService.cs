@@ -9,5 +9,9 @@ namespace LayerBusiness.Abstract
 {
     public interface IDiscountService : IGenericService<Discount>
     {
+        bool IsDiscountValid(int discountId);
+        double CalculateDiscountedPrice(double price, int discountId);
+
+
     }
 }

@@ -9,5 +9,8 @@ namespace LayerBusiness.Abstract
 {
     public interface ICampaignService:IGenericService<Campaign>
     {
+       List<Campaign> GetActiveCampaigns();
+        Campaign TGetByID(int id);
+
     }
 }

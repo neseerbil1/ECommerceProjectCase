@@ -64,5 +64,15 @@ namespace LayerBusiness.Concrete
 
             return discountedPrice;
         }
+
+        public CategoryDiscount TGetByID(int id)
+        {
+            return _categoryDiscountDal.GetByID(id);
+        }
+
+        public List<CategoryDiscount> GetByCategory(string category)
+        {
+            return _categoryDiscountDal.List(x => x.Category == category);
+        }
     }
 }

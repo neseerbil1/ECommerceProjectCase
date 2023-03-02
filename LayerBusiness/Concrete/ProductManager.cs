@@ -4,6 +4,7 @@ using LayerEntity.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -31,6 +32,10 @@ namespace LayerBusiness.Concrete
             }
             return products;
 
+        }
+        public List<Product> GetByCategory(string category)
+        {
+            return _productDal.List(x => x.Category == category);
         }
         private double ApplyDiscounts(Product product)
         {
@@ -67,6 +72,21 @@ namespace LayerBusiness.Concrete
         public void TUpdate(Product t)
         {
             _productDal.Update(t);
+        }
+
+        public Product TGetByID(int id)
+        {
+           return _productDal.GetByID(id);
+        }
+
+        public List<Product> GetList(Expression<Func<Product, bool>> filter = null)
+        {
+            return filter == null ? _productDal.List() : _productDal.List(filter);
+        }
+
+        public List<Product> GetList(Func<Product, bool> filter = null)
+        {
+            throw new NotImplementedException();
         }
     }
 }

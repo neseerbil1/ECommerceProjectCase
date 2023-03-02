@@ -48,6 +48,9 @@ namespace LayerBusiness.Concrete
             return activeCampaigns;
         }
 
-      
+        public Campaign TGetByID(int id)
+        {
+            return _campaignDal.GetByID(id);
+        }
     }
 }

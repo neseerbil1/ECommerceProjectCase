@@ -56,5 +56,10 @@ namespace LayerBusiness.Concrete
         {
            _discountDal.Update(t);
         }
+
+        public Discount TGetByID(int id)
+        {
+            return _discountDal.GetByID(id);
+        }
     }
 }
