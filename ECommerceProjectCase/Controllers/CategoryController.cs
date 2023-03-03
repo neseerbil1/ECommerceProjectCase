@@ -1,4 +1,6 @@
 ﻿using LayerBusiness.Abstract;
+using LayerBusiness.Concrete;
+using LayerDataAccess.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,33 +11,27 @@ namespace ECommerceProjectCase.Controllers
 {
     public class CategoryController : Controller
     {
-        private IProductService _productService;
-        private ICategoryDiscountService _categoryDiscountService;
-        private IDiscountService _discountService;
-
-        public CategoryController(IProductService productService, ICategoryDiscountService categoryDiscountService, IDiscountService discountService)
-        {
-            _productService = productService;
-            _categoryDiscountService = categoryDiscountService;
-            _discountService = discountService;
-        }
-
+        DiscountManager dm = new DiscountManager(new EfDiscountDal());
+        ProductManager pm = new ProductManager(new EfProductDal(), new EfDiscountDal(), new EfCampaignDal());
+        CategoryDiscountManager cdm = new CategoryDiscountManager(new EfCategoryDiscountDal());
+     
         // GET: Category
         public ActionResult Index()
         {
-            return View();
+            var categoryDiscounts = cdm.GetList();
+            return View(categoryDiscounts);
         }
         public ActionResult List(string category)
         {
-            var products = _productService.GetByCategory(category);
+            var products = pm.GetByCategory(category);
 
             foreach (var product in products)
             {
-                var categoryDiscounts = _categoryDiscountService.GetByCategory(product.Category);
+                var categoryDiscounts = cdm.GetByCategory(product.Category);
 
                 foreach (var categoryDiscount in categoryDiscounts)
                 {
-                    var discount = _discountService.TGetByID(categoryDiscount.DiscountId);
+                    var discount = dm.TGetByID(categoryDiscount.DiscountId);
 
                     if (DateTime.Now >= discount.StartDate && DateTime.Now <= discount.EndDate)
                     {

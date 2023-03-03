@@ -1,0 +1,23 @@
+﻿@model IEnumerable<LayerEntity.Concrete.Discount>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>StartDate</th>
+            <th>EndDate</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var discount in Model)
+        {
+            <tr>
+                <td>@discount.Id</td>
+                <td>@discount.Name</td>
+                <td>@discount.StartDate.ToString("yyyy-MM-dd")</td>
+                <td>@discount.EndDate.ToString("yyyy-MM-dd")</td>
+            </tr>
+        }
+    </tbody>
+</table>

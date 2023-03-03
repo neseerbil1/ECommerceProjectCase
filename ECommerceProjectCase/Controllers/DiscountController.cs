@@ -1,41 +1,35 @@
 ﻿using LayerBusiness.Abstract;
+using LayerBusiness.Concrete;
 using LayerDataAccess.Abstract;
+using LayerDataAccess.EntityFramework;
 using LayerEntity.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebGrease;
 
 namespace ECommerceProjectCase.Controllers
 {
     public class DiscountController : Controller
     {
-        // GET: Discount
-        private readonly IProductService _productService;
-        private readonly IDiscountService _discountService;
-        private readonly ICategoryDiscountService _categoryDiscountService;
-        private readonly ICampaignService _campaignService;
-
-        public DiscountController(IProductService productService, IDiscountService discountService, ICategoryDiscountService categoryDiscountService, ICampaignService campaignService)
-        {
-            _productService = productService;
-            _discountService = discountService;
-            _categoryDiscountService = categoryDiscountService;
-            _campaignService = campaignService;
-        }
+        DiscountManager dm = new DiscountManager(new EfDiscountDal());
+        ProductManager pm = new ProductManager(new EfProductDal(), new EfDiscountDal(), new EfCampaignDal());
+        CampaignManager cm = new CampaignManager(new EfCampaignDal(), new EfProductDal());
+        CategoryDiscountManager cdm = new CategoryDiscountManager(new EfCategoryDiscountDal());
 
         // GET: Discount
         public ActionResult Index()
         {
-            var discounts = _discountService.GetList();
+            var discounts = dm.GetList();
             return View(discounts);
         }
 
         // GET: Discount/Create
         public ActionResult Create()
         {
-            ViewBag.CategoryDiscounts = new SelectList(_categoryDiscountService.GetList(), "Id", "Category");
+            ViewBag.CategoryDiscounts = new SelectList(cdm.GetList(), "Id", "Category");
             return View();
         }
 
@@ -51,24 +45,24 @@ namespace ECommerceProjectCase.Controllers
                     StartDate = discount.StartDate,
                     EndDate = discount.EndDate
                 };
-                _campaignService.TAdd(campaign);
+                cm.TAdd(campaign);
 
                 discount.Id = campaign.ID;
-                _discountService.TAdd(discount);
+               dm.TAdd(discount);
 
                 foreach (var categoryDiscountId in categoryDiscountIds)
                 {
-                    var categoryDiscount = _categoryDiscountService.TGetByID(categoryDiscountId);
+                    var categoryDiscount = cdm.TGetByID(categoryDiscountId);
 
-                    var productIds = _productService.GetList(p => p.Category == categoryDiscount.Category).Select(p => p.Id).ToList();
+                    var productIds = pm.GetListByFunc(p => p.Category == categoryDiscount.Category).Select(p => p.Id).ToList();
                     foreach (var productId in productIds)
                     {
-                        var product = _productService.TGetByID(productId);
+                        var product = pm.TGetByID(productId);
                         product.CategoryDiscounts.Add(categoryDiscount);
-                        _productService.TUpdate(product);
+                        pm.TUpdate(product);
                     }
                 }
-
+                ViewBag.CategoryDiscounts = new SelectList(cdm.GetList(), "Id", "Category");
                 return RedirectToAction("Index");
             }
             catch
@@ -78,7 +72,7 @@ namespace ECommerceProjectCase.Controllers
         }
         public ActionResult AddCampaign()
         {
-            ViewBag.Discounts = _discountService.GetList();
+            ViewBag.Discounts = dm.GetList();
             return View();
         }
 
@@ -88,13 +82,13 @@ namespace ECommerceProjectCase.Controllers
             if (ModelState.IsValid)
             {
                 campaign.StartDate = DateTime.Now;
-                _campaignService.TAdd(campaign);
+                cm.TAdd(campaign);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Discounts = _discountService.GetList();
+            ViewBag.Discounts = dm.GetList();
             return View(campaign);
         }
-       
+
     }
 }

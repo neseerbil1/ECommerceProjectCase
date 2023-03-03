@@ -125,6 +125,10 @@
     <Compile Include="Abstract\IRepository.cs" />
     <Compile Include="Concrete\Context.cs" />
     <Compile Include="Concrete\Repository.cs" />
+    <Compile Include="EntityFramework\EfCampaignDal.cs" />
+    <Compile Include="EntityFramework\EfCategoryDiscountDal.cs" />
+    <Compile Include="EntityFramework\EfDiscountDal.cs" />
+    <Compile Include="EntityFramework\EfProductDal.cs" />
     <Compile Include="Migrations\202302282020283_mig1.cs" />
     <Compile Include="Migrations\202302282020283_mig1.designer.cs">
       <DependentUpon>202302282020283_mig1.cs</DependentUpon>

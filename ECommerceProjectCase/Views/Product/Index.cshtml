@@ -1,0 +1,40 @@
+﻿@model List<LayerEntity.Concrete.Product>
+
+<h2>Product List</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Category</th>
+            <th>Discounts</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.Id</td>
+                <td>@product.Name</td>
+                <td>@product.Price</td>
+                <td>@product.Category</td>
+                <td>
+                    @if (product.CategoryDiscounts != null && product.CategoryDiscounts.Any())
+                    {
+                        foreach (var discount in product.CategoryDiscounts)
+                        {
+                            <div>@discount.Discount</div>
+                        }
+                    }
+                    else
+                    {
+                        <div>No discounts available.</div>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

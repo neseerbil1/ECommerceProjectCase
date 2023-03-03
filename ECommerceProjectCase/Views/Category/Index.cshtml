@@ -1,0 +1,30 @@
+﻿@model List<LayerEntity.Concrete.CategoryDiscount>
+
+@{
+    ViewBag.Title = "Category Discounts";
+}
+
+<h2>Category Discounts</h2>
+
+<table class="table">
+    <tr>
+        <th>Category</th>
+        <th>Discount Name</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Discount Rate</th>
+    </tr>
+    @foreach (var categoryDiscount in Model)
+    {
+        <tr>
+            <td>@categoryDiscount.Category</td>
+            <td>@categoryDiscount.Discount.Name</td>
+            <td>@categoryDiscount.Discount.StartDate.ToShortDateString()</td>
+            <td>@categoryDiscount.Discount.EndDate.ToShortDateString()</td>
+            <td>@categoryDiscount.Discount.DiscountRate</td>
+        </tr>
+    }
+</table>
+
+@Html.ActionLink("Back to Home", "Index", "Home")
+

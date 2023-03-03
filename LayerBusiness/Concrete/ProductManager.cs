@@ -79,14 +79,12 @@ namespace LayerBusiness.Concrete
            return _productDal.GetByID(id);
         }
 
-        public List<Product> GetList(Expression<Func<Product, bool>> filter = null)
+
+
+
+        public List<Product> GetListByFunc(Expression<Func<Product, bool>> filter = null)
         {
             return filter == null ? _productDal.List() : _productDal.List(filter);
-        }
-
-        public List<Product> GetList(Func<Product, bool> filter = null)
-        {
-            throw new NotImplementedException();
         }
 
        

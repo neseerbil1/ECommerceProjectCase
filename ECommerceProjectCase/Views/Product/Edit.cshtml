@@ -1,0 +1,34 @@
+﻿@model LayerEntity.Concrete.Product
+
+@using (Html.BeginForm("Edit", "Product", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Name)
+        @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Name)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Price)
+        @Html.TextBoxFor(model => model.Price, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Price)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Category)
+        @Html.TextBoxFor(model => model.Category, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Category)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.CategoryDiscounts)
+        @Html.DropDownListFor(model => model.CategoryDiscounts[0].DiscountId, new SelectList(ViewBag.DiscountList, "Id", "Name"), "Select a discount", new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.CategoryDiscounts[0].DiscountId)
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+}
+
+

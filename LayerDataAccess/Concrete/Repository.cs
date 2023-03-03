@@ -47,7 +47,9 @@ namespace LayerDataAccess.Concrete
 
         public List<T> List(Expression<Func<T, bool>> filter)
         {
-            throw new NotImplementedException();
+            
+                return _object.Where(filter).ToList();
+            
         }
 
         public void Update(T p)

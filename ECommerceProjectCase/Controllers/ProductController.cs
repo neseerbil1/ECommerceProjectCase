@@ -1,4 +1,6 @@
 ﻿using LayerBusiness.Abstract;
+using LayerBusiness.Concrete;
+using LayerDataAccess.EntityFramework;
 using LayerEntity.Concrete;
 using System;
 using System.Collections.Generic;
@@ -10,27 +12,22 @@ namespace ECommerceProjectCase.Controllers
 {
     public class ProductController : Controller
     {
-        private readonly IProductService _productService;
-        private readonly IDiscountService _discountService;
-        private readonly ICategoryDiscountService _categoryDiscountService;
+        DiscountManager dm = new DiscountManager(new EfDiscountDal());
+        ProductManager pm = new ProductManager(new EfProductDal(), new EfDiscountDal(), new EfCampaignDal());
+        CategoryDiscountManager cdm = new CategoryDiscountManager(new EfCategoryDiscountDal());
 
-        public ProductController(IProductService productService, IDiscountService discountService, ICategoryDiscountService categoryDiscountService)
-        {
-            _productService = productService;
-            _discountService = discountService;
-            _categoryDiscountService = categoryDiscountService;
-        }
+       
 
         // GET: Product
         public ActionResult Index()
         {
-            List<Product> products = _productService.GetList();
+            List<Product> products = pm.GetList();
             return View(products);
         }
         [HttpGet]
         public ActionResult Create()
         {
-            ViewBag.DiscountList = _discountService.GetList();
+            ViewBag.DiscountList = dm.GetList();
             return View();
         }
         [HttpPost]
@@ -38,16 +35,20 @@ namespace ECommerceProjectCase.Controllers
         {
             if (ModelState.IsValid)
             {
-                _productService.TAdd(product);
+                pm.TAdd(product);
                 return RedirectToAction("Index");
             }
-            ViewBag.DiscountList = _discountService.GetList();
+            ViewBag.DiscountList = dm.GetList();
             return View(product);
         }
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
-            Product product = _productService.TGetByID(id);
-            ViewBag.DiscountList = _discountService.GetList();
+            if (id == null)
+            {
+                return RedirectToAction("Index");
+            }
+            Product product = pm.TGetByID(id.Value);
+            ViewBag.DiscountList = dm.GetList();
             return View(product);
         }
         [HttpPost]
@@ -55,30 +56,32 @@ namespace ECommerceProjectCase.Controllers
         {
             if (ModelState.IsValid)
             {
-                _productService.TUpdate(product);
+                pm.TUpdate(product);
                 return RedirectToAction("Index");
             }
-            ViewBag.DiscountList = _discountService.GetList();
+            ViewBag.DiscountList = dm.GetList();
             return View(product);
         }
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int? id)
         {
-            Product product = _productService.TGetByID(id);
-            if (product == null)
+            if (id == null)
             {
                 return HttpNotFound();
             }
+            Product product = pm.TGetByID(id.Value);
+           
             return View(product);
         }
         [HttpPost, ActionName("Delete")]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int? id)
         {
-            Product product = _productService.TGetByID(id);
-            if (product == null)
+            if (id == null)
             {
                 return HttpNotFound();
             }
-            _productService.TDelete(product);
+            Product product = pm.TGetByID(id.Value);
+           
+            pm.TDelete(product);
             return RedirectToAction("Index");
         }
     }

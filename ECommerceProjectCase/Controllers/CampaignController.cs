@@ -1,4 +1,6 @@
 ﻿using LayerBusiness.Abstract;
+using LayerBusiness.Concrete;
+using LayerDataAccess.EntityFramework;
 using LayerEntity.Concrete;
 using System;
 using System.Collections.Generic;
@@ -10,19 +12,16 @@ namespace ECommerceProjectCase.Controllers
 {
     public class CampaignController : Controller
     {
-        private readonly ICampaignService _campaignService;
+        CampaignManager cm = new CampaignManager(new EfCampaignDal(), new EfProductDal());
 
-        public CampaignController(ICampaignService campaignService)
-        {
-            _campaignService = campaignService;
-        }
+        
 
 
 
         // GET: Campaign
         public ActionResult Index()
         {
-            var campaigns = _campaignService.GetList();
+            var campaigns = cm.GetList();
             return View(campaigns);
         }
       
@@ -34,33 +33,33 @@ namespace ECommerceProjectCase.Controllers
         [HttpPost]
         public ActionResult Create(Campaign campaign)
         {
-            _campaignService.TAdd(campaign);
+           cm.TAdd(campaign);
             return RedirectToAction("Index");
         }
 
         public ActionResult Edit(int id)
         {
-            var campaign = _campaignService.TGetByID(id);
+            var campaign = cm.TGetByID(id);
             return View(campaign);
         }
 
         [HttpPost]
         public ActionResult Edit(Campaign campaign)
         {
-            _campaignService.TUpdate(campaign);
+            cm.TUpdate(campaign);
             return RedirectToAction("Index");
         }
 
         public ActionResult Delete(int id)
         {
-            var campaign = _campaignService.TGetByID(id);
+            var campaign = cm.TGetByID(id);
             return View(campaign);
         }
 
         [HttpPost]
         public ActionResult Delete(Campaign campaign)
         {
-            _campaignService.TDelete(campaign);
+            cm.TDelete(campaign);
             return RedirectToAction("Index");
         }
     }
