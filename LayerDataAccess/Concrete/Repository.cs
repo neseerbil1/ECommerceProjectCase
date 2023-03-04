@@ -20,8 +20,20 @@ namespace LayerDataAccess.Concrete
         }
         public void Delete(T p)
         {
+            if (p == null)
+            {
+                throw new ArgumentNullException("entity");
+            }
+
+            var entry = c.Entry(p);
+
+            if (entry.State == EntityState.Detached)
+            {
+                _object.Attach(p);
+            }
+
             _object.Remove(p);
-             c.SaveChanges();
+            c.SaveChanges();
         }
 
         public T Find(Expression<Func<T, bool>> where)

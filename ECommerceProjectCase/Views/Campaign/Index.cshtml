@@ -1,0 +1,27 @@
+﻿@model List<LayerEntity.Concrete.Campaign>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th></th>
+    </tr>
+
+    @foreach (var campaign in Model)
+    {
+        <tr>
+            <td>@campaign.ID</td>
+            <td>@campaign.Name</td>
+            <td>@campaign.StartDate</td>
+            <td>@campaign.EndDate</td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = campaign.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = campaign.ID })
+            </td>
+        </tr>
+    }
+</table>
+
+@Html.ActionLink("Create New Campaign", "Create")

@@ -14,10 +14,7 @@ namespace ECommerceProjectCase.Controllers
     {
         CampaignManager cm = new CampaignManager(new EfCampaignDal(), new EfProductDal());
 
-        
-
-
-
+    
         // GET: Campaign
         public ActionResult Index()
         {

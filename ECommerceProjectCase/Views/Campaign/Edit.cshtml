@@ -1,0 +1,23 @@
+﻿@model LayerEntity.Concrete.Campaign
+
+@using (Html.BeginForm("Edit", "Campaign", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div>
+        <label for="Name">Name:</label>
+        @Html.TextBoxFor(model => model.Name)
+    </div>
+    <div>
+        <label for="StartDate">Start Date:</label>
+        @Html.TextBoxFor(model => model.StartDate)
+    </div>
+    <div>
+        <label for="EndDate">End Date:</label>
+        @Html.TextBoxFor(model => model.EndDate)
+    </div>
+
+    <button type="submit">Save</button>
+}
+
+@Html.ActionLink("Back to List", "Index")

@@ -1,6 +1,7 @@
 ﻿using LayerBusiness.Abstract;
 using LayerBusiness.Concrete;
 using LayerDataAccess.EntityFramework;
+using LayerEntity.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,6 +42,70 @@ namespace ECommerceProjectCase.Controllers
             }
 
             return View(products);
+        }
+        // GET: Category/Create
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Category/Create
+        [HttpPost]
+        public ActionResult Create(CategoryDiscount categoryDiscount)
+        {
+            try
+            {
+                cdm.TAdd(categoryDiscount);
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: Category/Edit/5
+        public ActionResult Edit(int id)
+        {
+            var categoryDiscount = cdm.TGetByID(id);
+            return View(categoryDiscount);
+        }
+
+        // POST: Category/Edit/5
+        [HttpPost]
+        public ActionResult Edit(int id, CategoryDiscount categoryDiscount)
+        {
+            try
+            {
+                cdm.TUpdate(categoryDiscount);
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: Category/Delete/5
+        public ActionResult Delete(int id)
+        {
+            var categoryDiscount = cdm.TGetByID(id);
+            return View(categoryDiscount);
+        }
+
+        // POST: Category/Delete/5
+        [HttpPost]
+        public ActionResult Delete(int id, CategoryDiscount categoryDiscount)
+        {
+            try
+            {
+                cdm.TDelete(categoryDiscount);
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
         }
     }
 }
